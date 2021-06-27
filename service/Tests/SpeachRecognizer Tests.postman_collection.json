@@ -1,99 +1,471 @@
 {
-	"id": "b211f45d-09fb-1dae-feed-cdb244866dab",
-	"name": "SpeachRecognizer Tests",
-	"description": "",
-	"order": [
-		"fba97b5f-d976-225f-45e4-c39b66adfbfd",
-		"8f135ab4-de5c-a2db-3cf6-fa5a9ede5bdb",
-		"04635b80-5640-769c-b73c-1d81c359cf76"
-	],
-	"folders": [],
-	"folders_order": [],
-	"timestamp": 1596971468373,
-	"owner": 0,
-	"public": false,
-	"requests": [
+	"info": {
+		"_postman_id": "64bdd9c2-866e-4feb-81c6-0640e43ed8b8",
+		"name": "Kaldi speech recognition REST API",
+		"description": "Simple REST interface for posting tasks for non realtime speech recognition",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
 		{
-			"id": "04635b80-5640-769c-b73c-1d81c359cf76",
-			"headers": "",
-			"headerData": [],
-			"url": "http://localhost:8080/KaldiService/rest/task/:taskid/status",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {
-				"taskid": "9Ds8dp6sROm56cdAL6KpGA"
+			"name": "task",
+			"item": [
+				{
+					"name": "/task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"response = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"last_task_id\", response.taskId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/octet-stream"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/task",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task"
+							]
+						},
+						"description": "Adds a task for speach recognition into processing queue"
+					},
+					"response": [
+						{
+							"name": "Task added to processing queue",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: oauth2",
+										"key": "Authorization",
+										"value": "<token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"occaecat ullamco est quis exercitation\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/task",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"taskId\": \"h6Js2Lpd7\"\n}"
+						},
+						{
+							"name": "Bad request parameters",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: oauth2",
+										"key": "Authorization",
+										"value": "<token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"occaecat ullamco est quis exercitation\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/task",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: oauth2",
+										"key": "Authorization",
+										"value": "<token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"occaecat ullamco est quis exercitation\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/task",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Processing queue is full",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: oauth2",
+										"key": "Authorization",
+										"value": "<token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"occaecat ullamco est quis exercitation\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/task",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "/task/:taskId/status",
+					"request": {
+						"auth": {
+							"type": "oauth2"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/task/:taskId/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task",
+								":taskId",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "taskId",
+									"value": "{{last_task_id}}",
+									"description": "(Required) Task Id to retrieve task execution status"
+								}
+							]
+						},
+						"description": "Retrieves task execution status"
+					},
+					"response": [
+						{
+							"name": "Task has been completed, results are available in response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: oauth2",
+										"key": "Authorization",
+										"value": "<token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/task/:taskId/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "taskId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"status\": \"Done\",\n \"taskId\": \"h6Js2Lpd7\",\n \"text\": \"This is some recognized text from a wave file\",\n \"textChunks\": [\n  {\n   \"segmentText\": \"from a wave file\",\n   \"timeStart\": 1578,\n   \"timeEnd\": 12930\n  },\n  {\n   \"segmentText\": \"from a wave file\",\n   \"timeStart\": 1578,\n   \"timeEnd\": 12930\n  }\n ]\n}"
+						},
+						{
+							"name": "Task is not processed yet",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: oauth2",
+										"key": "Authorization",
+										"value": "<token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/task/:taskId/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "taskId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: oauth2",
+										"key": "Authorization",
+										"value": "<token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/task/:taskId/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"status"
+									],
+									"variable": [
+										{
+											"key": "taskId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/serviceStatus",
+			"request": {
+				"auth": {
+					"type": "oauth2"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/serviceStatus",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"serviceStatus"
+					]
+				},
+				"description": "Returns status of Kaldi speach recognition service"
 			},
-			"pathVariableData": [
+			"response": [
 				{
-					"key": "taskid",
-					"value": "9Ds8dp6sROm56cdAL6KpGA"
+					"name": "Status of Kaldi speach recognition service",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/serviceStatus",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"serviceStatus"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"workersCount\": 8,\n \"queueDepth\": 32,\n \"availableQueueSlots\": 27\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: oauth2",
+								"key": "Authorization",
+								"value": "<token>"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/serviceStatus",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"serviceStatus"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
 				}
-			],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1597008620793,
-			"name": "Get task status",
-			"description": "",
-			"collectionId": "b211f45d-09fb-1dae-feed-cdb244866dab",
-			"responses": []
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		},
 		{
-			"id": "8f135ab4-de5c-a2db-3cf6-fa5a9ede5bdb",
-			"headers": "",
-			"headerData": [],
-			"url": "http://localhost:8080/KaldiService/rest/serviceStatus",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "GET",
-			"collectionId": "b211f45d-09fb-1dae-feed-cdb244866dab",
-			"data": null,
-			"dataMode": "params",
-			"name": "Get service status",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1596971619843,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {}
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/KaldiService/rest"
 		},
 		{
-			"id": "fba97b5f-d976-225f-45e4-c39b66adfbfd",
-			"headers": "Content-Type: application/octet-stream\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/octet-stream",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://localhost:8080/KaldiService/rest/task",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "binary",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1596983286518,
-			"name": "Add new task",
-			"description": "",
-			"collectionId": "b211f45d-09fb-1dae-feed-cdb244866dab",
-			"responses": [],
-			"rawModeData": ""
+			"key": "last_task_id",
+			"value": ""
 		}
 	]
 }
