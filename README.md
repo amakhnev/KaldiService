@@ -23,9 +23,9 @@ Install:
 `cd KaldiService`<BR>
 `docker build -t kaldi_service:1.0 ./`
 
-### 3. Launch Docker container
+### 3. Launch Docker container using docker-compose
 
-`docker run -it --rm -p 8080:8080 kaldi_service:1.0`
+`docker-compose up -d`
 
 ## Project structure
 
